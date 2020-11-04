@@ -283,7 +283,7 @@ GetDefaultFailType = function()
 	end
 
 	-- return the appropriate Enum string or "FailType_Immediate" if nothing was parsed out of DefaultModifiers
-	return fail_strings[default_fail] or "FailType_Immediate"
+	return fail_strings[default_fail] or "FailType_EndOfSong"
 end
 
 -- -----------------------------------------------------------------------
@@ -411,7 +411,8 @@ end
 -- the best way to spread holiday cheer is singing loud for all to hear
 
 HolidayCheer = function()
-	return (PREFSMAN:GetPreference("EasterEggs") and MonthOfYear()==11)
+	return false
+	-- return (PREFSMAN:GetPreference("EasterEggs") and MonthOfYear()==11)
 end
 
 DarkUI = function()
@@ -420,7 +421,7 @@ DarkUI = function()
 	-- because a [_fallback] section doesn't exist.  This should really be fixed in the _fallback theme,
 	-- but we can prevent Lua errors from being thrown in the meantime.
 	if THEME:GetCurThemeName() ~= PREFSMAN:GetPreference("Theme") then return false end
-
+	
 	if ThemePrefs.Get("RainbowMode") then return true end
 	if HolidayCheer() then return true end
 	return false
@@ -429,7 +430,8 @@ end
 -- -----------------------------------------------------------------------
 -- "The chills, I have them down my spine."
 IsSpooky = function()
-	return (PREFSMAN:GetPreference("EasterEggs") and MonthOfYear()==9 and ThemePrefs.Get("VisualStyle")=="Spooky")
+	return false
+	-- return (PREFSMAN:GetPreference("EasterEggs") and MonthOfYear()==9 and ThemePrefs.Get("VisualStyle")=="Spooky")
 end
 
 -- -----------------------------------------------------------------------

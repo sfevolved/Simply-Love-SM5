@@ -69,13 +69,19 @@ local af2 = Def.ActorFrame{}
 af2.OffCommand=function(self) self:smooth(0.65):diffusealpha(0) end
 
 
--- the big blocky Wendy text that says SIMPLY LOVE (or SIMPLY THONK, or SIMPLY DUCKS, etc.)
--- and the arrows graphic that appears between the two words
-af2[#af2+1] = LoadActor("./SimplySomething.lua")
+
+af2[#af2+1] = LoadActor(THEME:GetPathG("", "CFTitle (doubleres).png"))..{
+	Name="Simply Text",
+	InitCommand=function(self)
+		self:zoom(1.0):vertalign(top)
+		self:y(-170):x(0):shadowlength(0.75)
+	end,
+	OffCommand=function(self) self:linear(0.5):shadowlength(0) end
+}
 
 -- SM version, SL version, song stats
 af2[#af2+1] = Def.ActorFrame{
-	InitCommand=function(self) self:zoom(0.8):y(-120):diffusealpha(0) end,
+	InitCommand=function(self) self:zoom(0.8):y(-170):diffusealpha(0) end,
 	OnCommand=function(self) self:sleep(0.2):linear(0.4):diffusealpha(1) end,
 
 	LoadFont("Common Normal")..{
@@ -87,20 +93,6 @@ af2[#af2+1] = Def.ActorFrame{
 		InitCommand=function(self) self:diffuse(TextColor) end,
 	}
 }
-
--- "The chills, I have them down my spine."
-if IsSpooky() then
-	af2[#af2+1] = LoadActor("./SpookyButFadeOut.lua")
-end
-
--- the best way to spread holiday cheer is singing loud for all to hear
-if HolidayCheer() then
-	af2[#af2+1] = Def.Sprite{
-		Texture=THEME:GetPathB("ScreenTitleMenu", "underlay/hat.png"),
-		InitCommand=function(self) self:zoom(0.225):xy( 130, -self:GetHeight()/2 ):rotationz(15):queuecommand("Drop") end,
-		DropCommand=function(self) self:decelerate(1.333):y(-110) end,
-	}
-end
 
 -- ensure that af2 is added as a child of af
 af[#af+1] = af2

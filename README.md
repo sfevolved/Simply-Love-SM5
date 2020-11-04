@@ -1,4 +1,11 @@
-# Simply Love (StepMania 5)
+# Club Fantastic Notes About Simply Love
+
+The Club Fantastic package ships a modified version of the Simply Love SM5 theme by quietly-turning, originally designed by hurtpiggypig.
+
+We've left its documentation intact. However, several of our modifications may have rendered certain details incorrect.
+
+
+## Simply Love (StepMania 5)
 
 ![Arrow Logo](https://i.imgur.com/oZmxyGo.png)
 

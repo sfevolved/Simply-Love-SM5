@@ -85,7 +85,9 @@ local meter = Def.ActorFrame{
 	}
 }
 
-return meter
+-- return meter
+
+return Def.ActorFrame{}
 
 -- copyright 2008-2012 AJ Kelly/freem.
 -- do not use this code in your own themes without my permission.

@@ -34,7 +34,7 @@ SL_CustomPrefs.Get = function()
 
 		HideStockNoteSkins =
 		{
-			Default = false,
+			Default = true,
 			Choices = { THEME:GetString("ThemePrefs", "Show"), THEME:GetString("ThemePrefs", "Hide") },
 			Values  = { false, true }
 		},
@@ -53,11 +53,10 @@ SL_CustomPrefs.Get = function()
 		{
 			Default = "ITG",
 			Choices = {
-				THEME:GetString("ScreenSelectPlayMode", "Casual"),
 				THEME:GetString("ScreenSelectPlayMode", "ITG"),
 				THEME:GetString("ScreenSelectPlayMode", "FA+"),
 			},
-			Values = { "Casual", "ITG", "FA+" }
+			Values = { "ITG", "FA+" }
 		},
 		AutoStyle =
 		{
@@ -72,10 +71,10 @@ SL_CustomPrefs.Get = function()
 		},
 		VisualStyle =
 		{
-			Default = "Hearts",
+			Default = "Arrows",
 			 -- emojis are our lingua franca for the 21st century
-			Choices = { "♡", "↖", "🐻", "🦆", "😺", "🎃", "🌈", "⭐", "🤔" },
-			Values  = { "Hearts", "Arrows", "Bears", "Ducks", "Cats", "Spooky", "Gay", "Stars", "Thonk" },
+			Choices = { "↖", "♡" },
+			Values  = { "Arrows", "Hearts" },
 		},
 		RainbowMode = {
 			Default = false,
@@ -91,7 +90,7 @@ SL_CustomPrefs.Get = function()
 		SimplyLoveColor =
 		{
 			-- a nice pinkish-purple, by default
-			Default = 3,
+			Default = 5,
 			Choices = { 1,2,3,4,5,6,7,8,9,10,11,12 },
 			Values  = { 1,2,3,4,5,6,7,8,9,10,11,12 }
 		},
@@ -145,7 +144,7 @@ SL_CustomPrefs.Get = function()
 		},
 		AllowScreenSelectColor =
 		{
-			Default = true,
+			Default = false,
 			Choices = { THEME:GetString("ThemePrefs","Yes"), THEME:GetString("ThemePrefs", "No") },
 			Values  = { true, false }
 		},
