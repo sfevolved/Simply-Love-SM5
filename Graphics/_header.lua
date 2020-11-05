@@ -1,6 +1,6 @@
 -- tables of rgba values
 local dark  = {0,0,0,0.9}
-local light = {0.65,0.65,0.65,1}
+local light  = {0,0,0,0.9}
 
 return Def.ActorFrame{
 	Name="Header",

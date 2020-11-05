@@ -3,7 +3,8 @@ local pn = ToEnumShortString(player)
 local mods = SL[pn].ActiveModifiers
 
 --Let's see if we need to let  the player know that they are nice.
-if ThemePrefs.Get("nice") > 0 then
+-- XXXCF: Do this in a better way later
+if 0 then
 	return LoadActor(THEME:GetPathG("","nice.png"))..{
 		InitCommand=function(self)
 			self:xy(GetNotefieldX(player), _screen.cy )

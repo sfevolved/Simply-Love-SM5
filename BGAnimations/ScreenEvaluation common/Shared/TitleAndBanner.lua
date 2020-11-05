@@ -4,15 +4,93 @@ local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() o
 local banner = {
 	directory = (FILEMAN:DoesFileExist(path) and path or THEME:GetPathG("","_FallbackBanners/Arrows")),
 	width = 418,
-	zoom = 0.7,
+	height = 164,
+	zoom = 0.5,
 }
 
--- the Quad containing the bpm and music rate doesn't appear in Casual mode
--- so nudge the song title and banner down a bit when in Casual
-local y_offset = SL.Global.GameMode=="Casual" and 50 or 46
-
+local y_offset = 42
 
 local af = Def.ActorFrame{ InitCommand=function(self) self:xy(_screen.cx, y_offset) end }
+
+local y_top = 0
+
+-- quad behind the song info text
+af[#af+1] = Def.Quad{
+	InitCommand=function(self) self:y(y_top):vertalign("top"):diffuse(0,0,0,0.75)	
+		:setsize(banner.width,72):zoom(banner.zoom) end,
+}
+
+-- song/course info text
+af[#af+1] = LoadFont("Common Normal")..{
+	InitCommand=function(self)
+		local songtitle = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse():GetDisplayFullTitle()) or GAMESTATE:GetCurrentSong():GetDisplayFullTitle()
+		if songtitle then self:settext(songtitle):zoom(0.9):maxwidth(banner.width*banner.zoom*(1/0.8))
+						  :vertalign("top"):y(y_top + 3) end
+	end
+}
+
+af[#af+1] = LoadFont("Common Normal")..{
+	InitCommand = function(self)
+		local artist = (not GAMESTATE:IsCourseMode()) and GAMESTATE:GetCurrentSong():GetDisplayArtist()
+		if artist then self:settext(artist):zoom(0.65):maxwidth(banner.width*banner.zoom*(1/0.8)):vertalign("top")
+					   :y(y_top+20) end
+	end
+}
+
+-- quad behind the tempo/length
+af[#af+1] = Def.Quad{
+	InitCommand=function(self) self:y((banner.height*banner.zoom)+30):vertalign("top"):diffuse(0,0,0,0.75)	
+		:setsize(banner.width, 40):zoom(banner.zoom) end,
+}
+
+af[#af+1] = LoadFont("Common Normal")..{
+	InitCommand=function(self) self:zoom(0.65):xy(-banner.width*banner.zoom*0.5+4,(banner.height*banner.zoom) + 42)
+							   :horizalign("left"):maxwidth(banner.width*0.5) end,
+	OnCommand=function(self)
+		-- FIXME: the current layout of ScreenEvaluation doesn't accommodate split BPMs
+		--        so this currently uses the MasterPlayer's BPM values
+		local bpms = StringifyDisplayBPMs()
+		local MusicRate = SL.Global.ActiveModifiers.MusicRate
+		if  MusicRate ~= 1 then
+			-- format a string like "BPM: 150 - 300 (1.5x Music Rate)"
+			self:settext( ("%s BBPM (%gx %s)"):format(bpms, MusicRate, THEME:GetString("OptionTitles", "MusicRate")) )
+		else
+			-- format a string like "BPM: 100 - 200"
+			self:settext( ("%s BPM"):format(bpms))
+		end
+	end
+}
+
+af[#af+1] = LoadFont("Common Normal")..{
+	InitCommand=function(self) self:zoom(0.65):xy(banner.width*banner.zoom*0.5-4,(banner.height*banner.zoom) + 42)
+		:horizalign("right") end,
+	OnCommand = function(self)
+		local seconds
+		if not GAMESTATE:IsCourseMode() then
+			seconds = GAMESTATE:GetCurrentSong():MusicLengthSeconds()
+		else
+			local trail = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber())
+			if trail then
+				seconds = TrailUtil.GetTotalSeconds(trail)
+			end
+		end
+		if seconds then
+			seconds = seconds / SL.Global.ActiveModifiers.MusicRate
+			-- longer than 1 hour in length
+			if seconds > 3600 then
+				-- format to display as H:MM:SS
+				self:settext(math.floor(seconds/3600) .. ":" .. SecondsToMMSS(seconds%3600))
+			else
+				-- format to display as M:SS
+				self:settext(SecondsToMSS(seconds))
+			end
+		else
+			self:settext("")
+		end
+	end
+}
+
+-- banner goes on top of everything else, in case the quads are misaligned
 
 if SongOrCourse and SongOrCourse:HasBanner() then
 	--song or course banner, if there is one
@@ -24,27 +102,14 @@ if SongOrCourse and SongOrCourse:HasBanner() then
 			else
 				self:LoadFromSong( GAMESTATE:GetCurrentSong() )
 			end
-			self:y(66):setsize(banner.width, 164):zoom(banner.zoom)
+			self:setsize(banner.width, 164):zoom(banner.zoom):vertalign("top"):y(34)
 		end,
 	}
 else
 	--fallback banner
 	af[#af+1] = LoadActor(banner.directory .. "/banner" .. SL.Global.ActiveColorIndex .. " (doubleres).png")..{
-		InitCommand=function(self) self:y(66):zoom(banner.zoom) end
+		InitCommand=function(self) self:zoom(banner.zoom):vertalign("top"):y(34) end
 	}
 end
-
--- quad behind the song/course title text
-af[#af+1] = Def.Quad{
-	InitCommand=function(self) self:diffuse(color("#1E282F")):setsize(banner.width,25):zoom(banner.zoom) end,
-}
-
--- song/course title text
-af[#af+1] = LoadFont("Common Normal")..{
-	InitCommand=function(self)
-		local songtitle = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse():GetDisplayFullTitle()) or GAMESTATE:GetCurrentSong():GetDisplayFullTitle()
-		if songtitle then self:settext(songtitle):maxwidth(banner.width*banner.zoom) end
-	end
-}
 
 return af

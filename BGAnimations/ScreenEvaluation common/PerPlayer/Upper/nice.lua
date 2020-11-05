@@ -16,7 +16,11 @@ local RadarCategories = { 'Holds', 'Mines', 'Hands', 'Rolls' }
 -- if the table contains a 69 in a substring, "nice"
 -- a little bit of code re-use from LetterGrade.lua
 local IsNice = function()
+	-- XXXCF: We really don't want this. Disable it hackily for now.
+	-- If someone wants to say "nice" they can reply to a score post.
+	return false
 
+	--[[
 	if ThemePrefs.Get("nice") <= 0 then return false end
 
 	if string.match(percent, "69") ~= nil then return true end
@@ -67,6 +71,7 @@ local IsNice = function()
 	end
 
 	return false
+	]]--
 end
 
 local IsCranked = function()

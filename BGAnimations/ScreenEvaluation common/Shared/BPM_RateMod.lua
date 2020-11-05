@@ -19,10 +19,10 @@ return Def.ActorFrame{
 			local MusicRate = SL.Global.ActiveModifiers.MusicRate
 			if  MusicRate ~= 1 then
 				-- format a string like "150 - 300 bpm (1.5x Music Rate)"
-				self:settext( ("%s bpm (%gx %s)"):format(bpms, MusicRate, THEME:GetString("OptionTitles", "MusicRate")) )
+				self:settext( ("%s BPM (%gx %s)"):format(bpms, MusicRate, THEME:GetString("OptionTitles", "MusicRate")) )
 			else
 				-- format a string like "100 - 200 bpm"
-				self:settext( ("%s bpm"):format(bpms))
+				self:settext( ("%s BPM"):format(bpms))
 			end
 		end
 	}

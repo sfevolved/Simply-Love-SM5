@@ -5,13 +5,13 @@ local PlayerDefaults = {
 		initialize = function(self)
 			self.ActiveModifiers = {
 				SpeedModType = "X",
-				SpeedMod = 1.00,
+				SpeedMod = 1.50,
 				JudgmentGraphic = "Love 2x6.png",
 				ComboFont = "Wendy",
 				HoldJudgment = "Love 1x2.png",
 				NoteSkin = nil,
 				Mini = "0%",
-				BackgroundFilter = "Off",
+				BackgroundFilter = "Dark",
 
 				HideTargets = false,
 				HideSongBG = false,

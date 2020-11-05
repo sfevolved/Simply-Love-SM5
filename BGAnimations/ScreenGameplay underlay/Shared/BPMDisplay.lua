@@ -48,7 +48,7 @@ local SingleBPMDisplay = function()
 		LoadFont("Common Bold")..{
 			Name="BPMDisplay",
 			InitCommand=function(self)
-				self:zoom(0.35)
+				self:zoom(0.35):shadowlength(1)
 				bpmDisplay = self
 			end
 		}
@@ -99,7 +99,7 @@ local t = Def.ActorFrame{
 		Name="RatemodDisplay",
 		Text=MusicRate ~= 1 and MusicRate.."x rate" or "",
 		InitCommand=function(self)
-			self:zoom(0.35):y(12)
+			self:zoom(0.35):y(12):shadowlength(1)
 			MusicRateDisplay = self
 		end
 	}
